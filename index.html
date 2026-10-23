@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102a43">
+    <title>EARTH QUEST — 失われた星の鼓動</title>
+    <link rel="stylesheet" href="css/game.css">
+  </head>
+  <body>
+    <main class="game-shell">
+      <section class="world-panel" aria-label="ゲーム画面">
+        <div id="world-viewport" class="world-viewport">
+          <canvas id="world-view" tabindex="0" aria-label="一人称3D環境。マウスを動かすだけで上下左右を見渡せます"></canvas>
+          <div class="scene-vignette" aria-hidden="true"></div>
+
+          <header class="hud-top">
+            <section class="location-card" aria-label="現在地">
+              <p id="area-region" class="hud-kicker">冒険のはじまり</p>
+              <h1 id="area-name">潮風の町</h1>
+              <p id="map-name" class="map-name"></p>
+              <p id="environment-status" class="environment-status" aria-live="polite"></p>
+            </section>
+            <div class="hud-actions">
+              <div class="compass-card" aria-label="方角">
+                <span class="compass-caption">方角</span>
+                <strong id="compass-heading">北</strong>
+                <span id="compass-degree">0°</span>
+              </div>
+              <button id="fullscreen-toggle" class="icon-button" type="button" aria-label="全画面表示" title="全画面表示">⛶</button>
+            </div>
+          </header>
+
+          <aside class="quest-card" aria-label="現在のクエスト">
+            <p class="hud-kicker"><span class="quest-glyph" aria-hidden="true">✦</span> 進行中のクエスト</p>
+            <h2 id="quest-title"></h2>
+            <p id="quest-description"></p>
+            <div class="quest-rule" aria-hidden="true"></div>
+            <p class="quest-footnote">人と自然の声に耳をすませよう</p>
+          </aside>
+
+          <div class="view-crosshair" aria-hidden="true"><span></span></div>
+          <p id="view-hint" class="view-hint">マウスを動かして見回す <i>・</i> WASDで移動 <i>・</i> Shiftで走る</p>
+
+          <div id="interaction-prompt" class="interaction-prompt" aria-live="polite" hidden>
+            <span class="interaction-key">E</span>
+            <span id="interaction-label">話しかける</span>
+          </div>
+
+          <section id="dialogue-card" class="dialogue-card" aria-live="polite" aria-atomic="true" hidden>
+            <div class="dialogue-heading">
+              <span class="dialogue-ornament" aria-hidden="true">❧</span>
+              <p class="hud-kicker" id="dialogue-speaker">冒険日誌</p>
+              <button id="dialogue-close" class="dialogue-close" type="button" aria-label="会話を閉じる">×</button>
+            </div>
+            <p id="dialogue-text"></p>
+            <div id="choices" class="choices"></div>
+          </section>
+
+          <div class="controls-hud" aria-label="キーボード操作">
+            <span class="control-group"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><small>移動</small></span>
+            <span class="control-group"><kbd>Shift</kbd><small>走る</small></span>
+            <span class="control-group"><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd><small>視点</small></span>
+            <span class="control-group"><kbd>E</kbd><small>調べる</small></span>
+          </div>
+
+          <div class="touch-controls" aria-label="タッチ操作">
+            <div class="touch-pad" aria-label="移動">
+              <button type="button" data-control="arrowup" aria-label="前進">↑</button>
+              <button type="button" data-control="arrowleft" aria-label="左へ移動">←</button>
+              <button type="button" data-control="arrowdown" aria-label="後退">↓</button>
+              <button type="button" data-control="arrowright" aria-label="右へ移動">→</button>
+            </div>
+            <div class="touch-look" aria-label="視点操作">
+              <button type="button" data-control="lookleft" aria-label="左を見る">↶</button>
+              <button type="button" data-control="lookup" aria-label="上を見る">↑</button>
+              <button type="button" data-control="lookdown" aria-label="下を見る">↓</button>
+              <button type="button" data-control="lookright" aria-label="右を見る">↷</button>
+            </div>
+          </div>
+
+          <footer class="hud-footer"><span class="status-dot"></span> 探索中 <span class="footer-divider">/</span> 地球の未来を一緒に見つけよう</footer>
+        </div>
+      </section>
+    </main>
+    <script defer src="js/areas/ocean.js"></script>
+    <script defer src="js/areas/desert.js"></script>
+    <script defer src="js/main.js"></script>
+  </body>
+</html>

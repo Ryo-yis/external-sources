@@ -1,0 +1,727 @@
+:root {
+  color-scheme: dark;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  color: #fff9e9;
+  background: #10221d;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --gold: #e7c985;
+  --gold-bright: #ffe6a8;
+  --ink-soft: #e4e4d7;
+  --panel: #18261fe8;
+  --panel-strong: #17231ff5;
+  --line: #d7c38c65;
+  --shadow: 0 8px 28px #07100db3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #10221d;
+}
+
+button {
+  font: inherit;
+}
+
+.game-shell,
+.world-panel,
+.world-viewport {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.world-panel {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #819b8c;
+}
+
+.world-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #819b8c;
+  touch-action: none;
+}
+
+#world-view {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.scene-vignette {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(180deg, #07120b8c 0%, transparent 20%, transparent 58%, #07120b12 70%, #07120bc7 100%),
+    linear-gradient(90deg, #07120b4d 0%, transparent 25%, transparent 75%, #07120b3d 100%);
+  pointer-events: none;
+}
+
+.hud-top {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 22px;
+  padding: 24px clamp(20px, 4vw, 64px);
+  pointer-events: none;
+}
+
+.location-card {
+  min-width: 0;
+  text-align: left;
+  text-shadow: 0 2px 9px #000b;
+}
+
+.hud-kicker {
+  margin: 0;
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.location-card h1 {
+  margin: 4px 0 2px;
+  color: #fff8e9;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+}
+
+.map-name {
+  margin: 0;
+  color: #eee2c3;
+  font-size: 0.73rem;
+  letter-spacing: 0.08em;
+}
+
+.environment-status {
+  margin: 5px 0 0;
+  color: #e4d8b8;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+}
+
+.hud-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 13px;
+  pointer-events: auto;
+}
+
+.compass-card {
+  display: grid;
+  min-width: 58px;
+  justify-items: center;
+  padding: 3px 8px;
+  color: #fff4d9;
+  text-shadow: 0 2px 7px #000b;
+}
+
+.compass-caption {
+  color: #e3d5b7;
+  font-size: 0.58rem;
+  letter-spacing: 0.13em;
+}
+
+.compass-card strong {
+  color: var(--gold-bright);
+  font-family: Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.compass-card span:last-child {
+  font-size: 0.62rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.icon-button {
+  display: grid;
+  width: 39px;
+  height: 39px;
+  place-items: center;
+  border: 1px solid #f0dfa180;
+  border-radius: 50%;
+  background: #17231f99;
+  color: #fff3d3;
+  font-size: 1.35rem;
+  cursor: pointer;
+  transition: background 140ms ease, transform 140ms ease;
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  background: #725c34d9;
+  transform: scale(1.05);
+}
+
+.icon-button:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+}
+
+.quest-card {
+  position: absolute;
+  z-index: 3;
+  top: 130px;
+  right: clamp(20px, 4vw, 64px);
+  width: min(300px, 28vw);
+  padding: 17px 19px 14px;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--gold);
+  border-radius: 4px 12px 12px 4px;
+  background: linear-gradient(115deg, #18261fdc, #18261f9c);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(7px);
+  pointer-events: none;
+}
+
+.quest-glyph {
+  margin-right: 5px;
+  color: var(--gold-bright);
+  font-size: 0.9rem;
+}
+
+.quest-card h2 {
+  margin: 8px 0 6px;
+  color: #fff5df;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.quest-card > p:nth-of-type(2) {
+  margin: 0;
+  color: #e4e2d4;
+  font-size: 0.76rem;
+  line-height: 1.7;
+}
+
+.quest-rule {
+  height: 1px;
+  margin: 12px 0 8px;
+  background: linear-gradient(90deg, var(--gold), #e7c98500);
+}
+
+.quest-footnote {
+  margin: 0;
+  color: #c9bc9e;
+  font-size: 0.67rem;
+  letter-spacing: 0.04em;
+}
+
+.view-crosshair {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 19px;
+  height: 19px;
+  place-items: center;
+  border: 1px solid #fff9;
+  border-radius: 50%;
+  box-shadow: 0 1px 5px #0009;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.view-crosshair span {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.view-hint {
+  position: absolute;
+  z-index: 3;
+  top: 59%;
+  left: 50%;
+  margin: 0;
+  padding: 8px 14px;
+  border: 1px solid #f1e3bf4a;
+  border-radius: 3px;
+  background: #18261fa8;
+  color: #f6f0df;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: opacity 240ms ease;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+}
+
+.view-hint i {
+  padding: 0 5px;
+  color: var(--gold);
+  font-style: normal;
+}
+
+.view-hint.is-hidden {
+  opacity: 0;
+}
+
+.interaction-prompt {
+  position: absolute;
+  z-index: 4;
+  top: calc(50% + 34px);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 13px 7px 7px;
+  border: 1px solid #ebd9a399;
+  border-radius: 4px;
+  background: #17231fe8;
+  color: #fff8e8;
+  font-size: 0.78rem;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.interaction-prompt[hidden] {
+  display: none;
+}
+
+.interaction-key {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border: 1px solid var(--gold);
+  border-radius: 3px;
+  background: #5d4b2c;
+  color: #fff0c6;
+  font-family: Georgia, serif;
+  font-weight: 700;
+}
+
+.dialogue-card {
+  position: absolute;
+  z-index: 4;
+  bottom: 53px;
+  left: 50%;
+  width: min(620px, 55vw);
+  max-height: min(38vh, 340px);
+  overflow: auto;
+  padding: 15px 21px 17px;
+  border: 1px solid #ddc88b8c;
+  border-radius: 5px 13px 5px 13px;
+  background:
+    linear-gradient(110deg, #14231feF, #192820eF),
+    #17231f;
+  box-shadow: 0 9px 36px #0009, inset 0 0 0 3px #fff1;
+  transform: translateX(-50%);
+  scrollbar-color: #8f7b4c #17231f;
+  pointer-events: none;
+}
+
+.dialogue-card[hidden] {
+  display: none;
+}
+
+.dialogue-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #d8c38c4d;
+}
+
+.dialogue-close {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  margin-left: auto;
+  place-items: center;
+  border: 1px solid #d8c38c70;
+  border-radius: 50%;
+  background: #24352be8;
+  color: #f6f0df;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.dialogue-close:hover,
+.dialogue-close:focus-visible {
+  border-color: var(--gold-bright);
+  background: #465338;
+}
+
+.dialogue-ornament {
+  color: var(--gold);
+  font-family: Georgia, serif;
+  font-size: 1.2rem;
+}
+
+#dialogue-speaker {
+  margin: 0;
+  color: #f0d997;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+}
+
+#dialogue-text {
+  margin: 0;
+  color: #f6f0df;
+  font-size: 0.85rem;
+  line-height: 1.85;
+}
+
+.choices {
+  display: grid;
+  gap: 6px;
+  margin-top: 11px;
+}
+
+.choice-button {
+  width: 100%;
+  padding: 8px 11px;
+  border: 1px solid #d8c38c70;
+  border-radius: 3px;
+  background: #24352be8;
+  color: #fff4dc;
+  cursor: pointer;
+  line-height: 1.5;
+  text-align: left;
+  transition: border-color 120ms ease, background 120ms ease;
+  pointer-events: auto;
+}
+
+.choice-button:hover,
+.choice-button:focus-visible {
+  border-color: var(--gold-bright);
+  background: #465338;
+}
+
+.choice-button:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 2px;
+}
+
+.controls-hud {
+  position: absolute;
+  z-index: 3;
+  bottom: 23px;
+  left: clamp(20px, 4vw, 64px);
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  color: #f3efde;
+  text-shadow: 0 2px 5px #000b;
+  pointer-events: none;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.control-group small {
+  margin-left: 4px;
+  color: #e5dcc4;
+  font-size: 0.66rem;
+  white-space: nowrap;
+}
+
+kbd {
+  display: inline-grid;
+  min-width: 21px;
+  height: 21px;
+  place-items: center;
+  padding: 0 4px;
+  border: 1px solid #f1e4c16e;
+  border-radius: 3px;
+  background: #18261fac;
+  color: #fff5dd;
+  font: 600 0.65rem "Yu Gothic", sans-serif;
+}
+
+.hud-footer {
+  position: absolute;
+  z-index: 3;
+  right: clamp(20px, 4vw, 64px);
+  bottom: 24px;
+  color: #d8d4c5;
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 5px #000;
+  pointer-events: none;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: #c7d69a;
+  box-shadow: 0 0 8px #c7d69a99;
+}
+
+.footer-divider {
+  margin: 0 7px;
+  color: var(--gold);
+}
+
+.touch-controls {
+  display: none;
+  position: absolute;
+  z-index: 5;
+  right: 17px;
+  bottom: 16px;
+  left: 17px;
+  justify-content: space-between;
+  align-items: end;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+
+.touch-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  grid-template-rows: repeat(2, 44px);
+  gap: 4px;
+}
+
+.touch-pad button,
+.touch-look button {
+  border: 1px solid #f1e0b375;
+  border-radius: 50%;
+  background: #18261f9e;
+  color: #fff4d7;
+  font-size: 1.1rem;
+  cursor: pointer;
+  touch-action: none;
+  backdrop-filter: blur(3px);
+  pointer-events: auto;
+}
+
+.touch-pad button:active,
+.touch-look button:active {
+  border-color: var(--gold-bright);
+  background: #735d36db;
+}
+
+.touch-pad button:nth-child(1) {
+  grid-column: 2;
+}
+
+.touch-pad button:nth-child(2) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.touch-pad button:nth-child(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.touch-pad button:nth-child(4) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.touch-look {
+  display: flex;
+  flex-wrap: wrap;
+  width: 106px;
+  justify-content: center;
+  gap: 4px;
+}
+
+.touch-look button {
+  width: 46px;
+  height: 46px;
+  font-size: 1.2rem;
+}
+
+.touch-look button:nth-child(1) {
+  order: 1;
+}
+
+.touch-look button:nth-child(2) {
+  order: 2;
+}
+
+.touch-look button:nth-child(3) {
+  order: 4;
+}
+
+.touch-look button:nth-child(4) {
+  order: 3;
+}
+
+@media (max-width: 760px) {
+  .hud-top {
+    grid-template-columns: 1fr auto;
+    gap: 6px 12px;
+    padding: 15px 16px;
+  }
+
+  .location-card {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: unset;
+    text-align: left;
+  }
+
+  .location-card h1 {
+    margin-top: 2px;
+    font-size: 1rem;
+  }
+
+  .hud-actions {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    gap: 7px;
+  }
+
+  .compass-card {
+    min-width: 45px;
+  }
+
+  .quest-card {
+    top: 116px;
+    right: 13px;
+    width: min(220px, 48vw);
+    padding: 11px 12px;
+  }
+
+  .quest-card h2 {
+    margin: 5px 0 3px;
+    font-size: 0.83rem;
+  }
+
+  .quest-card > p:nth-of-type(2) {
+    font-size: 0.68rem;
+  }
+
+  .quest-rule,
+  .quest-footnote {
+    display: none;
+  }
+
+  .dialogue-card {
+    bottom: 106px;
+    width: calc(100% - 28px);
+    max-height: 31vh;
+    padding: 10px 13px;
+  }
+
+  #dialogue-text {
+    font-size: 0.77rem;
+    line-height: 1.65;
+  }
+
+  .controls-hud,
+  .hud-footer {
+    display: none;
+  }
+
+  .touch-controls {
+    display: flex;
+  }
+
+  .view-hint {
+    top: 54%;
+    max-width: calc(100% - 24px);
+    overflow: hidden;
+    font-size: 0.64rem;
+    text-overflow: ellipsis;
+  }
+
+  .interaction-prompt {
+    top: calc(50% + 27px);
+    max-width: calc(100% - 24px);
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 430px) {
+  .touch-pad {
+    grid-template-columns: repeat(3, 37px);
+    grid-template-rows: repeat(2, 38px);
+    gap: 3px;
+  }
+
+  .touch-look {
+    width: 88px;
+    gap: 3px;
+  }
+
+  .touch-look button {
+    width: 39px;
+    height: 39px;
+  }
+
+  .location-card h1 {
+    font-size: 0.9rem;
+  }
+
+  .environment-status {
+    max-width: 190px;
+    font-size: 0.62rem;
+  }
+
+  .quest-card {
+    top: 108px;
+    width: 47vw;
+  }
+
+  .quest-card .hud-kicker {
+    font-size: 0.56rem;
+  }
+}
+
+@media (max-height: 520px) and (min-width: 761px) {
+  .hud-top {
+    padding-top: 12px;
+  }
+
+  .quest-card {
+    top: 92px;
+    padding: 11px 14px;
+  }
+
+  .dialogue-card {
+    bottom: 42px;
+    max-height: 30vh;
+  }
+}
